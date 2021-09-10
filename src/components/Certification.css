@@ -1,0 +1,33 @@
+.certification-General {
+  background-color: #c8e6c9;
+  color: #256029;
+  border-radius: 2px;
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.8vw;
+  letter-spacing: .3px;
+  
+}
+
+.certification-CA-PG {
+  background-color: #feedaf;
+  color: #8a5340;
+  border-radius: 2px;
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.8vw;
+  letter-spacing: .3px;
+}
+
+.certification-14 {
+  background-color: #ffcdd2;
+  color: #c63737;
+  border-radius: 2px;
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.8vw;
+  letter-spacing: .3px;
+}

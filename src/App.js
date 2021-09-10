@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import MovieTable from "./components/MovieTable";
 
 function App() {
+  const [movieData, setMovieData] = useState();
+
+  useEffect(() => {
+    const fetchMovieData = async () => {
+  
+      const response = await fetch(
+        "https://skyit-coding-challenge.herokuapp.com/movies"
+      );
+      const data = await response.json();
+
+      for (let i = 0; i < data.length; i++) {
+        data[i].rating = (data[i].rating * 20).toFixed(2) + '%';        
+      }
+
+      setMovieData(data);
+    };
+    fetchMovieData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <MovieTable movieData={movieData} />
   );
 }
 
