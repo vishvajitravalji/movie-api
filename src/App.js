@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MovieTable from "./components/MovieTable";
 
 function App() {
-  const [movieData, setMovieData] = useState();
+  const [movieData, setMovieData] = useState([]);
 
   useEffect(() => {
     const fetchMovieData = async () => {

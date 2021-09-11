@@ -1,6 +1,5 @@
-import { MenuItem, Select } from "@material-ui/core";
-import Multiselect from "multiselect-react-dropdown";
-import React, { useEffect, useState } from "react";
+import { FormControl, MenuItem, Select } from "@material-ui/core";
+import React, { useState } from "react";
 import { Col, Container, Form, Row, Table } from "react-bootstrap";
 import Certification from "./Certification";
 import Director from "./Director";
@@ -8,30 +7,16 @@ import Length from "./Length";
 import Rating from "./Rating";
 import ReleaseDate from "./ReleaseDate";
 import Title from "./Title";
+import "./Certification.css";
 
 const MovieTable = ({ movieData }) => {
-  const directorData=[
-    {name:'John Carney',id:1},
-    {name:'Patty Jenkins',id:2},
-    {name:'Amy Poehler',id:3},
-    {name:'David Ayer',id:4},
-    {name:'Pete Docter',id:5},
-    {name:'Ryan Coogler',id:6},
-    {name:'Luc Besson',id:7},
-  ]
-
-  const [options] = useState(directorData);
   const [searchTitle, setSearchTitle] = useState("");
   const [searchYear, setSearchYear] = useState("");
   const [searchTime, setSearchTime] = useState("");
   const [searchRating, setSearchRating] = useState("");
-  const [searchDirector, setSearchDirector] = useState();
-  const [searchCerti, setSearchCerti] = useState('');
+  const [searchDirector, setSearchDirector] = useState("");
+  const [searchCerti, setSearchCerti] = useState("");
 
-  useEffect(() => {
-    console.log(searchDirector);
-  },[searchCerti,searchDirector,movieData])
-  
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -73,23 +58,95 @@ const MovieTable = ({ movieData }) => {
                 onChange={(e) => setSearchTime(e.target.value)}
               />
             </td>
+
             <td>
-              <Multiselect showCheckbox options={options} displayValue="name" onSelect={(e)=>setSearchDirector(e)} onRemove={(e)=>setSearchDirector(e)} ></Multiselect>
+              <Form.Control
+                type="text"
+                placeholder="Search by director"
+                onChange={(e) => setSearchDirector(e.target.value)}
+              />
             </td>
 
             <td>
-                 <Select
-                    
-                     style={{width:'200px'}}
-                     value={searchCerti}
-                     onChange={(e)=> setSearchCerti(e.target.value)}
+              <FormControl>
+                <Select
+                  style={{ 
+                    width: "180px",
+                    backgroundColor: "white" ,
+                    padding:'0.2em',
+                   
+                  }}
+                  value={searchCerti}
+                  onChange={(e) => setSearchCerti(e.target.value)}
+                  displayEmpty
+                >
+                  <MenuItem
+                    style={{
+                      backgroundColor: "#e2e3ee",
+                      color: "#256029",
+                      borderRadius: "2px",
+                      padding: ".25em .5rem",
+                      margin: "0.5em",
+                      textTransform: "uppercase",
+                      fontWeight: "700",
+                      fontSize: "0.8vw",
+                      letterSpacing: ".3px",
+                    }}
+                    value={""}
                   >
-                    <MenuItem selected value={''} >All</MenuItem>
-                    <MenuItem value={'General'} >General</MenuItem>
-                    <MenuItem value={'CA-PG'} >CA-PG</MenuItem>
-                    <MenuItem value={'14 ACCOMPANIMENT'} >14 Accompainiment</MenuItem>
-                  </Select>
-          </td>
+                    All Certifications
+                  </MenuItem>
+                  <MenuItem
+                    style={{
+                      backgroundColor: "#c8e6c9",
+                      color: "#256029",
+                      borderRadius: "2px",
+                      padding: ".25em .5rem",
+                      margin: "0.5em",
+                      textTransform: "uppercase",
+                      fontWeight: "700",
+                      fontSize: "0.8vw",
+                      letterSpacing: ".3px",
+                    }}
+                    value={"General"}
+                  >
+                    General
+                  </MenuItem>
+                  <MenuItem
+                    style={{
+                      backgroundColor: "#feedaf",
+                      color: "#8a5340",
+                      borderRadius: "2px",
+                      padding: ".25em .5rem",
+                      margin: "0.5em",
+                      textTransform: "uppercase",
+                      fontWeight: "700",
+                      fontSize: "0.8vw",
+                      letterSpacing: ".3px",
+                    }}
+                    value={"CA-PG"}
+                  >
+                    CA-PG
+                  </MenuItem>
+                  <MenuItem
+                    style={{
+                      backgroundColor: "#ffcdd2",
+                      color: "#c63737",
+                      borderRadius: "2px",
+                      padding: ".25em .5rem",
+                      margin: "0.5em",
+                      textTransform: "uppercase",
+                      fontWeight: "700",
+                      fontSize: "0.8vw",
+                      letterSpacing: ".3px",
+                    }}
+                    value={"14 ACCOMPANIMENT"}
+                  >
+                    14 Accompainiment
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </td>
             <td>
               <Form.Control
                 type="number"
@@ -98,20 +155,36 @@ const MovieTable = ({ movieData }) => {
               />
             </td>
           </tr>
-          {movieData.filter((item) => {
-              if (searchTitle === "" && searchYear === "" && searchTime === "" && searchRating === "" && searchCerti ==="") {
+          {movieData
+            .filter((item) => {
+              if (
+                searchTitle === "" &&
+                searchYear === "" &&
+                searchTime === "" &&
+                searchRating === "" &&
+                searchCerti === "" &&
+                searchDirector === ""
+              ) {
                 return item;
               } else if (
                 item.title.toLowerCase().includes(searchTitle.toLowerCase()) &&
-                item.releaseDate.toLowerCase().includes(searchYear.toLowerCase()) &&
+                item.releaseDate
+                  .toLowerCase()
+                  .includes(searchYear.toLowerCase()) &&
                 item.length.includes(searchTime) &&
                 item.rating.includes(searchRating) &&
-                item.certification.toLowerCase().includes(searchCerti.toLowerCase())   
+                item.certification
+                  .toLowerCase()
+                  .includes(searchCerti.toLowerCase()) &&
+                item.director
+                  .toLowerCase()
+                  .includes(searchDirector.toLowerCase())
               ) {
                 return item;
               }
               return false;
-            }).map((item) => ( 
+            })
+            .map((item) => (
               <tr key={item._id}>
                 <td>
                   <Title item={item} />
@@ -134,7 +207,6 @@ const MovieTable = ({ movieData }) => {
               </tr>
             ))}
         </tbody>
-      
       </Table>
     </Container>
   );
